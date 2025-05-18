@@ -1,0 +1,24 @@
+{
+  "name": "ati-02",
+  "version": "1.0.0",
+  "description": "Ativide de aplicação web",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nahmi07/ATI-02.git"
+  },
+  "author": "Yasmin Guiça",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Nahmi07/ATI-02/issues"
+  },
+  "homepage": "https://github.com/Nahmi07/ATI-02#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
