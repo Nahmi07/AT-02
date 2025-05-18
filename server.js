@@ -2,7 +2,7 @@ import express from "express";
 
 const app = express();
 const host = "localhost";
-const port = 6400;
+const port = 6850;
 let listaUsuarios = [];
 
 app.use(express.urlencoded({ extended: true }));
@@ -96,6 +96,7 @@ app.get("/cadastroUsuario", (req, res) => {
     }
     button, .btn {
       padding: 10px 20px;
+      margin:4px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
@@ -152,12 +153,6 @@ app.get("/cadastroUsuario", (req, res) => {
             <input type="email" id="email" name="email" class="form-control" required>
           </div>
           
-          <div class="form-group">
-            <label for="telefone">Telefone:</label>
-            <input type="tel" id="telefone" name="telefone" class="form-control" 
-                   pattern="\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}" 
-                   placeholder="(00) 00000-0000" required>
-          </div>
           
           <div class="form-group">
             <label for="serie">Série:</label>
@@ -195,11 +190,11 @@ app.get("/cadastroUsuario", (req, res) => {
 app.post("/cadastroUsuario", (req, res) => {
   const { nome, sobrenome, dataNascimento, email, telefone, serie, turno } = req.body;
   
-  if (!nome || !sobrenome || !dataNascimento || !email || !telefone || !serie || !turno) {
+  if (!nome || !sobrenome || !dataNascimento || !email || !serie || !turno) {
     return res.status(400).send("Todos os campos são obrigatórios");
   }
   
-  listaUsuarios.push({ nome, sobrenome, dataNascimento, email, telefone, serie, turno });
+  listaUsuarios.push({ nome, sobrenome, dataNascimento, email, serie, turno });
   
   res.redirect("/listaUsuarios");
 });
@@ -257,7 +252,6 @@ app.get("/listaUsuarios", (req, res) => {
                 <th>Sobrenome</th>
                 <th>Data Nasc.</th>
                 <th>E-mail</th>
-                <th>Telefone</th>
                 <th>Série</th>
                 <th>Turno</th>
               </tr>
@@ -269,7 +263,6 @@ app.get("/listaUsuarios", (req, res) => {
                   <td>${user.sobrenome}</td>
                   <td>${user.dataNascimento}</td>
                   <td>${user.email}</td>
-                  <td>${user.telefone}</td>
                   <td>${user.serie}</td>
                   <td>${user.turno}</td>
                 </tr>
