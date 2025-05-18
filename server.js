@@ -1,9 +1,9 @@
 import express from "express";
 
 const app = express();
-const host = "localhost";
+const host = "0.0.0.0";
 const port = 6850;
-let listaUsuarios = [];
+let listaAlunos = [];
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -19,6 +19,24 @@ app.get("/", (req, res) => {
       <style>
         body { padding: 20px; }
         .user-list { margin-top: 30px; }
+        
+        /* Estilos para botões verdes */
+        .btn-success {
+          background-color: #28a745;
+          border-color: #28a745;
+        }
+        .btn-success:hover {
+          background-color: #218838;
+          border-color: #1e7e34;
+        }
+        .btn-outline-success {
+          color: #28a745;
+          border-color: #28a745;
+        }
+        .btn-outline-success:hover {
+          background-color: #28a745;
+          color: white;
+        }
       </style>
     </head>
     <body>
@@ -34,10 +52,10 @@ app.get("/", (req, res) => {
                 <a class="nav-link active" href="/">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/cadastroUsuario">Cadastro</a>
+                <a class="nav-link" href="/cadastroAluno">Cadastro</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="/listaUsuarios">Ver Lista de Alunos</a>
+                <a class="nav-link" href="/listaAlunos">Ver Lista de Alunos</a>
               </li>
             </ul>
           </div>
@@ -55,7 +73,7 @@ app.get("/", (req, res) => {
   `);
 });
 
-app.get("/cadastroUsuario", (req, res) => {
+app.get("/cadastroAluno", (req, res) => {
   res.send(`
     <!DOCTYPE html>
     <html lang="pt-br">
@@ -64,64 +82,73 @@ app.get("/cadastroUsuario", (req, res) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Cadastro de Alunos</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-      <head>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f8f9fa;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 600px;
-      background-color: #fff;
-      margin: 50px auto;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-    }
-    label {
-      font-weight: bold;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0 16px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-    }
-    button, .btn {
-      padding: 10px 20px;
-      margin:4px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 15px;
-    }
-    .btn-primary {
-      background-color:#007bff;
-      color: white;
-    }
-    .btn-secondary {
-      background-color: #6c757d;
-      color: white;
-      margin-left: 10px;
-    }
-    nav {
-      background-color: #e9ecef;
-      padding: 10px 20px;
-    }
-    nav a {
-      text-decoration: none;
-      color:#007bff;
-      margin-right: 15px;
-      font-weight: bold;
-    }
-  </style>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f8f9fa;
+          margin: 0;
+          padding: 20px;
+        }
+        .container {
+          max-width: 600px;
+          background-color: #fff;
+          margin: 50px auto;
+          padding: 30px;
+          border-radius: 12px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+          text-align: center;
+          color: #333;
+        }
+        label {
+          font-weight: bold;
+        }
+        input {
+          width: 100%;
+          padding: 10px;
+          margin: 8px 0 16px;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+        }
+        button, .btn {
+          padding: 10px 20px;
+          margin: 4px;
+          border: none;
+          border-radius: 6px;
+          cursor: pointer;
+          font-size: 15px;
+          transition: all 0.3s;
+        }
+        /* Botão verde primário */
+        .btn-success {
+          background-color: #28a745;
+          color: white;
+        }
+        .btn-success:hover {
+          background-color: #218838;
+        }
+        /* Botão verde secundário */
+        .btn-outline-success {
+          color: #28a745;
+          border: 1px solid #28a745;
+          background-color: transparent;
+        }
+        .btn-outline-success:hover {
+          background-color: #28a745;
+          color: white;
+        }
+        nav {
+          background-color: #e9ecef;
+          padding: 10px 20px;
+        }
+        nav a {
+          text-decoration: none;
+          color: #007bff;
+          margin-right: 15px;
+          font-weight: bold;
+        }
+      </style>
     </head>
     <body>
       <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
@@ -132,7 +159,7 @@ app.get("/cadastroUsuario", (req, res) => {
       
       <div class="container">
         <h2>Cadastro de Alunos</h2>
-        <form method="POST" action="/cadastroUsuario">
+        <form method="POST" action="/cadastroAluno">
           <div class="form-group">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" class="form-control" required>
@@ -153,7 +180,6 @@ app.get("/cadastroUsuario", (req, res) => {
             <input type="email" id="email" name="email" class="form-control" required>
           </div>
           
-          
           <div class="form-group">
             <label for="serie">Série:</label>
             <select id="serie" name="serie" class="form-control" required>
@@ -169,15 +195,14 @@ app.get("/cadastroUsuario", (req, res) => {
           <div class="form-group">
             <label>Turno:</label>
             <select id="turno" name="turno" class="form-control" required>
-              <option >Selecione...</option>
-              <option >Manhã</option>
-              <option >Tarde</option>
-             
+              <option>Selecione...</option>
+              <option>Manhã</option>
+              <option>Tarde</option>
             </select>
           </div>
           
-          <button type="submit" class="btn btn-primary">Cadastrar</button>
-          <a href="/" class="btn btn-secondary">Cancelar</a>
+          <button type="submit" class="btn btn-success">Cadastrar</button>
+          <a href="/" class="btn btn-outline-success">Cancelar</a>
         </form>
       </div>
       
@@ -187,20 +212,25 @@ app.get("/cadastroUsuario", (req, res) => {
   `);
 });
 
-app.post("/cadastroUsuario", (req, res) => {
-  const { nome, sobrenome, dataNascimento, email, telefone, serie, turno } = req.body;
+app.post("/cadastroAluno", (req, res) => {
+  const nome = req.body.nome;
+  const sobrenome = req.body.sobrenome;
+  const dataNascimento = req.body.dataNascimento;
+  const email = req.body.email;
+  const serie = req.body.serie;
+  const turno = req.body.turno;
   
   if (!nome || !sobrenome || !dataNascimento || !email || !serie || !turno) {
     return res.status(400).send("Todos os campos são obrigatórios");
   }
   
-  listaUsuarios.push({ nome, sobrenome, dataNascimento, email, serie, turno });
-  
-  res.redirect("/listaUsuarios");
+  listaAlunos.push({ nome, sobrenome, dataNascimento, email, serie, turno });
+
+  res.redirect("/listaAlunos");
 });
 
-app.get("/listaUsuarios", (req, res) => {
-  res.send(`
+app.get("/listaAlunos", (req, res) => {
+  let conteudo = `
     <!DOCTYPE html>
     <html lang="pt-br">
     <head>
@@ -233,6 +263,25 @@ app.get("/listaUsuarios", (req, res) => {
         .btn {
           margin-top: 20px;
         }
+        /* Botão verde primário */
+        .btn-success {
+          background-color: #28a745;
+          color: white;
+          border: none;
+        }
+        .btn-success:hover {
+          background-color: #218838;
+        }
+        /* Botão verde secundário */
+        .btn-outline-success {
+          color: #28a745;
+          border: 1px solid #28a745;
+          background-color: transparent;
+        }
+        .btn-outline-success:hover {
+          background-color: #28a745;
+          color: white;
+        }
       </style>
     </head>
     <body>
@@ -244,40 +293,40 @@ app.get("/listaUsuarios", (req, res) => {
       
       <div class="container">
         <h2>Alunos Cadastrados</h2>
-        ${listaUsuarios.length > 0 ? `
-          <table class="table table-striped">
+          <table class="table table-striped table-hover">
             <thead>
               <tr>
-                <th>Nome</th>
-                <th>Sobrenome</th>
-                <th>Data Nasc.</th>
-                <th>E-mail</th>
-                <th>Série</th>
-                <th>Turno</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Sobrenome</th>
+                <th scope="col">Data Nascimento</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Série</th>
+                <th scope="col">Turno</th>
               </tr>
             </thead>
-            <tbody>
-              ${listaUsuarios.map(user => `
-                <tr>
-                  <td>${user.nome}</td>
-                  <td>${user.sobrenome}</td>
-                  <td>${user.dataNascimento}</td>
-                  <td>${user.email}</td>
-                  <td>${user.serie}</td>
-                  <td>${user.turno}</td>
-                </tr>
-              `).join('')}
-            </tbody>
+            <tbody>`;
+  
+  for(let i = 0; i < listaAlunos.length; i++){
+    conteudo += `
+      <tr>
+        <td>${listaAlunos[i].nome}</td>
+        <td>${listaAlunos[i].sobrenome}</td>
+        <td>${listaAlunos[i].dataNascimento}</td>
+        <td>${listaAlunos[i].email}</td>
+        <td>${listaAlunos[i].serie}</td>
+        <td>${listaAlunos[i].turno}</td>
+      </tr>`;
+  }
+
+  conteudo += ` </tbody>
           </table>
-        ` : '<p class="text-center">Nenhum aluno cadastrado ainda.</p>'}
-        <a href="/cadastroUsuario" class="btn btn-primary">Cadastrar Novo Aluno</a>
-        <a href="/" class="btn btn-secondary">Voltar</a>
+        <a href="/cadastroAluno" class="btn btn-success">Cadastrar Novo Aluno</a>
+        <a href="/" class="btn btn-outline-success">Voltar</a>
       </div>
-      
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
-    </html>
-  `);
+    </html>`;
+  
+  res.send(conteudo);
 });
 
 app.listen(port, host, () => {
